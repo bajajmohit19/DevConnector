@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "client": "yarn --cwd client start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Mohit",
   "license": "MIT",
@@ -14,6 +16,7 @@
     "config": "^3.2.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.1",
+    "flash": "^1.1.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.7",
