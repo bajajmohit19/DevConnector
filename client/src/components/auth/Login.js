@@ -23,10 +23,12 @@ const Login = ({login, isAuthenticated}) => {
     }
 
     const onSubmit = (e) => {
+        setLoading({loading:true})
+
         e.preventDefault()
             console.log("SUCCESS")
             login(email, password)
-
+        setLoading(false)
             // Redirect if logged in
            
             

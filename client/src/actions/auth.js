@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { REGISTER_SUCCESS, REGISTER_FAIL, AUTH_ERROR, USER_LOADED , LOGIN_SUCCESS, LOGIN_FAIL} from '../actions/types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, AUTH_ERROR, USER_LOADED , LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from '../actions/types'
 import { Form, Icon, Input, Button, Checkbox, notification } from 'antd';
 import setAuthToken from '../utils/setAuthToken'
 
@@ -125,12 +125,10 @@ export const login = (email, password ) => async dispatch => {
                         type: LOGIN_SUCCESS,
                         payload: d.data
                     }),
-                    dispatch(setAlert(d.data.msg, 'success')),
+                    // dispatch(setAlert(d.data.msg, 'success')),
                     dispatch(loadUser())
                 )
-                notification.success({
-                    message: d.data.msg,
-                })
+               
             })
             .catch((err) => {
                 console.log(err, err.stack.status, err.stack.data,"errorrr")
@@ -168,5 +166,9 @@ export const login = (email, password ) => async dispatch => {
 
     })
    
+}
+// Logout/Clear
+export const logout = () => dispatch => {
+    dispatch({type: LOGOUT})
 }
 // export default register
