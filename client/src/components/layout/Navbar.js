@@ -3,13 +3,28 @@ import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout} from '../../actions/auth'
 import PropTypes from 'prop-types'
+import {FaSignOutAlt} from 'react-icons/fa'
+import {MdDashboard} from 'react-icons/md'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee, faSignOutAlt, faDatabase, faTachometerAlt } from '@fortawesome/free-solid-svg-icons'
+import { } from '@fortawesome/fontawesome-svg-core'
+
+
 
 const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
     const authLinks = (
         <ul>
+            <li>
+                <Link to='/dashboard'>
+                    <span className='hide-sm'><FontAwesomeIcon icon={faTachometerAlt}/>{' '}</span> 
+                        
+                    Dashboard
+                </Link>
+            </li>
                 <li className='small'>
+
                     <a onClick={logout} href='#!'>
-                        <i className="fas fa-sign-out-alt"/>{' '}
+                    <span className='hide-sm'><FontAwesomeIcon icon={faSignOutAlt}/>{' '}</span> 
                         <span className='hide-sm'>Logout</span>
                     </a>
                 </li>

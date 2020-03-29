@@ -13,6 +13,7 @@ class Register extends Component {
         email: '',
         password: '',
         password2: '',
+        loading: false
     }
 
     onChange = (e) => {
@@ -20,9 +21,8 @@ class Register extends Component {
     }
 
     onSubmit = async (e) => {
-        const { password, password2, name, email } = this.state
+        const { password, password2, name, email, loading } = this.state
         e.preventDefault()
-
         this.props.form.validateFieldsAndScroll(async (err, valData) => {
             console.log(valData, err)
             const { name, email, password, password2 } = valData
@@ -30,6 +30,7 @@ class Register extends Component {
                 console.group("in")
                 if (password !== password2) {
                     this.props.setAlert("Password do not match", 'danger')
+                    
                 } else {
                     this.props.register({ name, email, password })
                 }
@@ -39,7 +40,10 @@ class Register extends Component {
                     this.props.setAlert("Password do not match", 'danger')
                 } else {
                     console.log("asdasda");
+        this.setState({loading: true})
+
                     this.props.register({ name, email, password })
+                    this.setState({loading: false})
                 }
             }
         })
@@ -59,6 +63,7 @@ class Register extends Component {
     }
     render() {
         const {isAuthenticated} = this.props
+        const {loading} = this.state
         const {
 
             form: { getFieldDecorator, getFieldValue, setFieldsValue }
@@ -124,7 +129,7 @@ class Register extends Component {
                         }
 
                         <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={loading}>
                                 SAVE
                                         </Button>
                         </Form.Item>

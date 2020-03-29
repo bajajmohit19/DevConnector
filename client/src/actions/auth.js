@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { REGISTER_SUCCESS, REGISTER_FAIL, AUTH_ERROR, USER_LOADED , LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from '../actions/types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, AUTH_ERROR, USER_LOADED , LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, CLEAR_PROFILE} from '../actions/types'
 import { Form, Icon, Input, Button, Checkbox, notification } from 'antd';
 import setAuthToken from '../utils/setAuthToken'
 
@@ -170,5 +170,7 @@ export const login = (email, password ) => async dispatch => {
 // Logout/Clear
 export const logout = () => dispatch => {
     dispatch({type: LOGOUT})
+    dispatch({type: CLEAR_PROFILE})
+
 }
 // export default register
