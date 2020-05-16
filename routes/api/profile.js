@@ -12,13 +12,19 @@ const { check, validationResult } = require('express-validator')
 //  @desc     Get current users profile
 //  @access   Private
 router.get('/me', auth, async (req, res) => {
+    console.log(req.user.id)
+    console.log("innnnnnnnnn")
     try {
         const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar'])
         if (!profile) {
+        console.log("aaaaaaa",profile)
+
             return res
                 .status(400)
                 .json({ msg: 'There is no profile for this user' })
         }
+        console.log("aaaaaaa",profile)
+
         res.send(profile)
 
     } catch (err) {
