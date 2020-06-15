@@ -1,21 +1,21 @@
 import React, { Fragment, useState } from 'react'
-import {Link, Redirect} from 'react-router-dom'
-import  {connect} from 'react-redux'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {login} from '../../actions/auth'
+import { login } from '../../actions/auth'
 import axios from 'axios'
 import {
     Button,
     Card
 } from "antd";
 
-const Login = ({login, isAuthenticated}) => {
+const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-       
+
     })
-    const [loading, setLoading] = useState(false)
+    const [loading, setState] = useState(false)
     const { email, password } = formData
     const onChange = (e) => {
         console.log(e.target.name)
@@ -23,28 +23,27 @@ const Login = ({login, isAuthenticated}) => {
     }
 
     const onSubmit = (e) => {
-        setLoading({loading:true})
-
+        setState({ loading: true })
         e.preventDefault()
-            console.log("SUCCESS")
-            login(email, password)
-        setLoading(false)
-            // Redirect if logged in
-           
-            
-        }
-        if(isAuthenticated){
-            console.log("qqqqqqqqqqqqqq")
-            return <Redirect to="/dashboard"/>
-        }
-    
+        console.log("SUCCESS")
+        login(email, password)
+        setState({loading: false })
+        // Redirect if logged in
+
+
+    }
+    if (isAuthenticated) {
+        console.log("qqqqqqqqqqqqqq")
+        return <Redirect to="/dashboard" />
+    }
+
     return (
         <Fragment>
             <h1 className="large text-primary">Sign In</h1>
             <Card title="Sign-Up" bordered={true} >
                 <p className="lead"><i class="fa fa-user"></i> Sign Into Your Account</p>
                 <form className="form" onSubmit={e => onSubmit(e)}>
-                    
+
                     <div className="form-group">
                         <input
                             type="email"
@@ -53,7 +52,7 @@ const Login = ({login, isAuthenticated}) => {
                             value={email}
                             onChange={e => onChange(e)}
                         />
-                      
+
                     </div>
                     <div className="form-group">
                         <input
@@ -80,6 +79,6 @@ Login.propTypes = {
     isAuthenticated: PropTypes.bool
 }
 const mapStateToProps = state => ({
-    isAuthenticated : state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 })
-export default connect(mapStateToProps,{login})(Login);
+export default connect(mapStateToProps, { login })(Login);
