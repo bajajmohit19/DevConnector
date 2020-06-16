@@ -7,6 +7,9 @@ import Spinner from '../layout/Spinner'
 import { loadUser } from '../../actions/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import {
+    Icon
+ } from 'antd'
 
 const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, loading } }) => {
     useEffect(() => {
