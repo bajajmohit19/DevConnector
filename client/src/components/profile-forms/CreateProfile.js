@@ -1,11 +1,13 @@
 import React, { useState, Fragment } from 'react'
-import { connect } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'antd'
+import { createProfile } from '../../actions/profile'
 
-const CreateProfile = props => {
+const CreateProfile = ({createProfile, history}) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -34,6 +36,15 @@ const CreateProfile = props => {
     youtube,
     instagram
   } = formData
+
+  const onChange = e =>{
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
+  const onSubmit = e =>{
+    console.log(formData)
+    e.preventDefault()
+    createProfile(formData, history)
+  }
   return (
     <Fragment>
       <h1 className="large text-primary">
@@ -44,9 +55,9 @@ const CreateProfile = props => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
-          <select name="status">
+          <select name="status" onChange={e => onChange(e)}>
             <option value="0">* Select Professional Status</option>
             <option value="Developer">Developer</option>
             <option value="Junior Developer">Junior Developer</option>
@@ -62,25 +73,25 @@ const CreateProfile = props => {
           >
         </div>
         <div className="form-group">
-          <input type="text" placeholder="Company" name="company" />
+          <input type="text" placeholder="Company" name="company" onChange={e => onChange(e)}/>
           <small className="form-text"
           >Could be your own company or one you work for</small
           >
         </div>
         <div className="form-group">
-          <input type="text" placeholder="Website" name="website" />
+          <input type="text" placeholder="Website" name="website" onChange={e => onChange(e)}/>
           <small className="form-text"
           >Could be your own or a company website</small
           >
         </div>
         <div className="form-group">
-          <input type="text" placeholder="Location" name="location" />
+          <input type="text" placeholder="Location" name="location" onChange={e => onChange(e)}/>
           <small className="form-text"
           >City & state suggested (eg. Boston, MA)</small
           >
         </div>
         <div className="form-group">
-          <input type="text" placeholder="* Skills" name="skills" />
+          <input type="text" placeholder="* Skills" name="skills" onChange={e => onChange(e)}/>
           <small className="form-text"
           >Please use comma separated values (eg.
             HTML,CSS,JavaScript,PHP)</small
@@ -91,6 +102,7 @@ const CreateProfile = props => {
             type="text"
             placeholder="Github Username"
             name="githubusername"
+            onChange={e => onChange(e)}
           />
           <small className="form-text"
           >If you want your latest repos and a Github link, include your
@@ -98,7 +110,7 @@ const CreateProfile = props => {
           >
         </div>
         <div className="form-group">
-          <textarea placeholder="A short bio of yourself" name="bio"></textarea>
+          <textarea onChange={e => onChange(e)} placeholder="A short bio of yourself" name="bio"></textarea>
           <small className="form-text">Tell us a little about yourself</small>
         </div>
 
@@ -111,18 +123,18 @@ const CreateProfile = props => {
 
         <div className="form-group social-input">
           <i className="fa fa-twitter fa-2x"></i>
-          <input type="text" placeholder="Twitter URL" name="twitter" />
+          <input onChange={e => onChange(e)} type="text" placeholder="Twitter URL" name="twitter" />
         </div>
 
         <div className="form-group social-input">
           <i className="fa fa-facebook fa-2x"></i>
-          <input type="text" placeholder="Facebook URL" name="facebook" />
+          <input onChange={e => onChange(e)} type="text" placeholder="Facebook URL" name="facebook" />
         </div>
 
         <div className="form-group social-input">
           <i className="fa fa-youtube fa-2x"></i>
 
-          <input type="text" placeholder="YouTube URL" name="youtube" />
+          <input type="text" placeholder="YouTube URL" name="youtube" onChange={e => onChange(e)}/>
         </div>
 
         <div className="form-group social-input">
@@ -138,10 +150,11 @@ const CreateProfile = props => {
         <a className="btn btn-light my-1" href="dashboard.html">Go Back</a>
       </form>
     </Fragment>
-  )
-}
+  );
+};
 CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired
+};
 
-}
 
-export default CreateProfile
+export default connect(null, {createProfile})(withRouter(CreateProfile))

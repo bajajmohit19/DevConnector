@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert'
+import { Form, Icon, Input, Button, Checkbox, notification } from 'antd';
 
 import {
     GET_PROFILE,
@@ -49,21 +50,45 @@ export const createProfile = (formData, history, edit = false) => async dispatch
                         payload: doc.data
                     })
                 )
-                dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created'))
+                dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'))
 
-                if(!edit) {
+                if (!edit) {
                     history.push('/dashboard')
                 }
 
             }).catch((err) => {
-                console.log("211212121212",err)
-                resolve(
-                    dispatch({
-                        type: PROFILE_ERROR,
-                        payload: { msg: err.response.statusText, status: err.response.status }
+                console.log(err, err.stack.status, err.stack.data, "errorrr")
+                if (err.response.data.err) {
+                    let errors1 = err.response.data.msg
+                    // console.log(errors1)
+                    dispatch(setAlert(errors1, 'danger'))
+                    notification.error({
+                        message: err.response.data.msg,
                     })
-                    
-                )
+
+                } else {
+                    let errors2 = err.response.data.errors
+                    errors2.forEach(error => {
+                        notification.error({
+                            message: error.msg
+                        })
+                    })
+
+                    resolve(
+                        errors2.forEach((error) =>
+                            dispatch(
+                                setAlert(error.msg, 'danger')
+                            ),
+
+                            dispatch({
+                                type: PROFILE_ERROR,
+                                payload: { msg: err.response.statusText, status: err.response.status }
+
+                            })
+
+                        )
+                    )
+                }
             })
     })
 

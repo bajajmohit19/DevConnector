@@ -91,6 +91,7 @@ export const register = ({ name, email, password }) => async dispatch => {
 
                             dispatch({
                                 type: REGISTER_FAIL,
+                                payload: err
 
                             })
 

@@ -27,7 +27,7 @@ const Login = ({ login, isAuthenticated }) => {
         e.preventDefault()
         console.log("SUCCESS")
         login(email, password)
-        setState({loading: false })
+        setState({ loading: false })
         // Redirect if logged in
 
 
