@@ -8,30 +8,38 @@ import {
     Button,
     Card
 } from "antd";
+import auth from '../../reducers/auth'
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        loading: false
 
     })
-    const [loading, setState] = useState(false)
+    // const [loading, setLoading] = useState(false)
+    console.log("121212", formData.loading )
     const { email, password } = formData
     const onChange = (e) => {
-        console.log(e.target.name)
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
     const onSubmit = (e) => {
-        setState({ loading: true })
         e.preventDefault()
+        setFormData({ ...formData, loading: false })
+
         console.log("SUCCESS")
-        login(email, password)
-        setState({ loading: false })
+
+        let data = login(email, password)
+        setFormData({ ...formData, loading: true })
+
+        console.log("resolve", data)
+        console.log("adcjvcyashbgaukbchesd", formData.loading )
         // Redirect if logged in
 
 
     }
+
     if (isAuthenticated) {
         console.log("qqqqqqqqqqqqqq")
         return <Redirect to="/dashboard" />
@@ -64,7 +72,7 @@ const Login = ({ login, isAuthenticated }) => {
                             minLength="6"
                         />
                     </div>
-                    <Button type="primary" htmlType="submit" loading={loading}>Login</Button>
+                    <Button type="primary" htmlType="submit" loading={formData.loading}>Login</Button>
                 </form>
             </Card>
             <p className="my-1">
@@ -79,6 +87,7 @@ Login.propTypes = {
     isAuthenticated: PropTypes.bool
 }
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    loading: state.auth.loading
 })
 export default connect(mapStateToProps, { login })(Login);

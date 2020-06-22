@@ -132,22 +132,32 @@ export const login = (email, password) => async dispatch => {
 
             })
             .catch((err) => {
-                console.log(err, err.stack.status, err.stack.data, "errorrr")
+                console.log(err, err.response.status, err.response.data, "errorrr")
                 if (err.response.data.err) {
                     let errors1 = err.response.data.msg
                     // console.log(errors1)
-                    dispatch(setAlert(errors1, 'danger'))
+                    resolve(dispatch(setAlert(errors1, 'danger'), dispatch({
+                        type: LOGIN_FAIL,
+                        loading: false
+
+                    })))
                     notification.error({
                         message: err.response.data.msg,
                     })
 
                 } else {
                     let errors2 = err.response.data.errors
-                    errors2.forEach(error => {
+                    resolve(errors2.forEach(error => {
                         notification.error({
                             message: error.msg
                         })
+                    }), dispatch({
+                        type: LOGIN_FAIL,
+                        loading: false
+
+
                     })
+                    )
 
                     resolve(
                         errors2.forEach((error) =>
@@ -157,6 +167,8 @@ export const login = (email, password) => async dispatch => {
 
                             dispatch({
                                 type: LOGIN_FAIL,
+                                loading: false
+
 
                             })
 
