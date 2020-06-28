@@ -49,6 +49,7 @@ export default function(state = initialState, action) {
 
             return {
                 ...state,
+                ...payload,
                 token: null,
                 isAuthenticated: false,
                 loading: false

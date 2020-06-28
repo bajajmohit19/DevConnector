@@ -135,10 +135,10 @@ export const login = (email, password) => async dispatch => {
                 console.log(err, err.response.status, err.response.data, "errorrr")
                 if (err.response.data.err) {
                     let errors1 = err.response.data.msg
-                    // console.log(errors1)
+                    console.log("!!!!!!!!!!!!!!!!!", errors1)
                     resolve(dispatch(setAlert(errors1, 'danger'), dispatch({
                         type: LOGIN_FAIL,
-                        loading: false
+                        payload: err.response.data
 
                     })))
                     notification.error({
@@ -146,34 +146,23 @@ export const login = (email, password) => async dispatch => {
                     })
 
                 } else {
+                    console.log("insideeeee",)
                     let errors2 = err.response.data.errors
                     resolve(errors2.forEach(error => {
                         notification.error({
                             message: error.msg
                         })
+                        dispatch(
+                            setAlert(error.msg, 'danger')
+                        )
                     }), dispatch({
                         type: LOGIN_FAIL,
-                        loading: false
+                        payload: err.response.data
 
 
                     })
                     )
 
-                    resolve(
-                        errors2.forEach((error) =>
-                            dispatch(
-                                setAlert(error.msg, 'danger')
-                            ),
-
-                            dispatch({
-                                type: LOGIN_FAIL,
-                                loading: false
-
-
-                            })
-
-                        )
-                    )
                 }
             })
 

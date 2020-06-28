@@ -8,20 +8,23 @@ import { loadUser } from '../../actions/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import {
-    Icon
+    Icon,
+    Card
  } from 'antd'
-
+import DashboardActions from './dashboardActions'
 const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, loading } }) => {
     useEffect(() => {
         getCurrentProfile();
     }, [])
     console.log(loading)
-    return loading && profile === null ? <Spinner /> : <Fragment>
+    return loading && profile === null ? <Spinner /> : 
+    <Card loading={loading}>
+    <Fragment>
         <h1 className='large text-primary'>Dashboard</h1>
         <p className="lead">
             <FontAwesomeIcon icon={faUser} /> Welcome {user && user.name}
         </p>
-        {profile !== null ? <Fragment>has</Fragment> : <Fragment>
+        {profile !== null ? <Fragment><DashboardActions/></Fragment> : <Fragment>
             <p>You have not yet setup a profile, please add some info</p>
             <Link to='/create-profile' className='btn btn-primary my-1'>
                 Create Profile
@@ -29,6 +32,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
         </Fragment>}
 
     </Fragment>
+    </Card>
 };
 
 Dashboard.propTypes = {

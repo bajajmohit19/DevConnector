@@ -6,7 +6,8 @@ import { login } from '../../actions/auth'
 import axios from 'axios'
 import {
     Button,
-    Card
+    Card,
+    Form
 } from "antd";
 import auth from '../../reducers/auth'
 
@@ -14,50 +15,46 @@ const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        loading: false
 
     })
-    // const [loading, setLoading] = useState(false)
-    console.log("121212", formData.loading )
-    const { email, password } = formData
+    const [loading1, setLoading] = useState(false)
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        setFormData({ ...formData, loading: false })
+        const { email, password } = formData
 
+        setLoading(true)
         console.log("SUCCESS")
 
-        let data = login(email, password)
-        setFormData({ ...formData, loading: true })
+        let data = await login(email, password)
+        setLoading(false)
 
         console.log("resolve", data)
-        console.log("adcjvcyashbgaukbchesd", formData.loading )
         // Redirect if logged in
 
 
     }
 
     if (isAuthenticated) {
-        console.log("qqqqqqqqqqqqqq")
         return <Redirect to="/dashboard" />
     }
 
     return (
         <Fragment>
             <h1 className="large text-primary">Sign In</h1>
-            <Card title="Sign-Up" bordered={true} >
+            <Card title="Sign-In" bordered={true} >
                 <p className="lead"><i class="fa fa-user"></i> Sign Into Your Account</p>
-                <form className="form" onSubmit={e => onSubmit(e)}>
+                <Form className="form" onSubmit={e => onSubmit(e)}>
 
                     <div className="form-group">
                         <input
                             type="email"
                             placeholder="Email Address"
                             name="email"
-                            value={email}
+                            value={formData.email}
                             onChange={e => onChange(e)}
                         />
 
@@ -67,13 +64,13 @@ const Login = ({ login, isAuthenticated }) => {
                             type="password"
                             placeholder="Password"
                             name="password"
-                            value={password}
+                            value={formData.password}
                             onChange={e => onChange(e)}
                             minLength="6"
                         />
                     </div>
-                    <Button type="primary" htmlType="submit" loading={formData.loading}>Login</Button>
-                </form>
+                    <Button type="primary" htmlType="submit" loading={loading1}>Login</Button>
+                </Form>
             </Card>
             <p className="my-1">
                 Dont have an account? <Link to="/register">Sign Up</Link>
