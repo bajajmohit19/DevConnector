@@ -1,23 +1,23 @@
-import React, { Fragment , useState} from 'react'
+import React, { Fragment, useState } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addExperience } from '../../actions/profile'
 
 const AddExperience = (props) => {
-    const [state, setState] = useState({
-        company:'',
-        title:'',
-        location:'',
-        from:'',
-        to:'',
-        current: false,
-        description:''
-    })
-    return (
-        <Fragment>
-            <h1 class="large text-primary">
-       Add An Experience
+  const [state, setState] = useState({
+    company: '',
+    title: '',
+    location: '',
+    from: '',
+    to: '',
+    current: false,
+    description: ''
+  })
+  return (
+    <Fragment>
+      <h1 class="large text-primary">
+        Add An Experience
       </h1>
       <p class="lead">
         <i class="fas fa-code-branch"></i> Add any developer/programming
@@ -38,7 +38,7 @@ const AddExperience = (props) => {
           <h4>From Date</h4>
           <input type="date" name="from" />
         </div>
-         <div class="form-group">
+        <div class="form-group">
           <p><input type="checkbox" name="current" value="" /> Current Job</p>
         </div>
         <div class="form-group">
@@ -56,10 +56,10 @@ const AddExperience = (props) => {
         <input type="submit" class="btn btn-primary my-1" />
         <a class="btn btn-light my-1" href="dashboard.html">Go Back</a>
       </form>
-        </Fragment>
-    )
+    </Fragment>
+  )
 }
 AddExperience.propTypes = {
-    addExperience: PropTypes.func.isRequired
+  addExperience: PropTypes.func.isRequired
 }
 export default addExperience
