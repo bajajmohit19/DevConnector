@@ -60,7 +60,6 @@ export const createProfile = (formData, history, edit = false) => async dispatch
                 console.log(err, err.stack.status, err.stack.data, "errorrr")
                 if (err.response.data.err) {
                     let errors1 = err.response.data.msg
-                    // console.log(errors1)
                     dispatch(setAlert(errors1, 'danger'))
                     notification.error({
                         message: err.response.data.msg,
@@ -92,4 +91,123 @@ export const createProfile = (formData, history, edit = false) => async dispatch
             })
     })
 
+}
+// Add Experience
+export const addExperience = (formData, history) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    }
+    return new Promise((resolve) => {
+        axios.put('/api/profile/experience', formData, config)
+            .then((doc) => {
+                resolve(
+                    dispatch({
+                        type: UPDATE_PROFILE,
+                        payload: doc.data
+                    })
+                )
+                dispatch(setAlert('Experience Added', 'success'))
+                notification.success({
+                    message: doc.data.msg,
+                })
+
+                    history.push('/dashboard')
+
+            }).catch((err) => {
+                console.log(err, err.stack.status, err.stack.data, "errorrr")
+                if (err.response.data.err) {
+                    let errors1 = err.response.data.msg
+                    dispatch(setAlert(errors1, 'danger'))
+                    notification.error({
+                        message: err.response.data.msg,
+                    })
+
+                } else {
+                    let errors2 = err.response.data.errors
+                    errors2.forEach(error => {
+                        notification.error({
+                            message: error.msg
+                        })
+                    })
+
+                    resolve(
+                        errors2.forEach((error) =>
+                            dispatch(
+                                setAlert(error.msg, 'danger')
+                            ),
+
+                            dispatch({
+                                type: PROFILE_ERROR,
+                                payload: { msg: err.response.statusText, status: err.response.status }
+
+                            })
+
+                        )
+                    )
+                }
+            })
+    })
+}
+// Add Education
+
+export const addEducation = (formData, history) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    }
+    return new Promise((resolve) => {
+        axios.put('/api/profile/education', formData, config)
+            .then((doc) => {
+                resolve(
+                    dispatch({
+                        type: UPDATE_PROFILE,
+                        payload: doc.data
+                    })
+                )
+                dispatch(setAlert('Education Added', 'success'))
+                notification.success({
+                    message: doc.data.msg,
+                })
+
+                    history.push('/dashboard')
+
+            }).catch((err) => {
+                console.log(err, err.stack.status, err.stack.data, "errorrr")
+                if (err.response.data.err) {
+                    let errors1 = err.response.data.msg
+                    dispatch(setAlert(errors1, 'danger'))
+                    notification.error({
+                        message: err.response.data.msg,
+                    })
+
+                } else {
+                    let errors2 = err.response.data.errors
+                    errors2.forEach(error => {
+                        notification.error({
+                            message: error.msg
+                        })
+                    })
+
+                    resolve(
+                        errors2.forEach((error) =>
+                            dispatch(
+                                setAlert(error.msg, 'danger')
+                            ),
+
+                            dispatch({
+                                type: PROFILE_ERROR,
+                                payload: { msg: err.response.statusText, status: err.response.status }
+
+                            })
+
+                        )
+                    )
+                }
+            })
+    })
 }
