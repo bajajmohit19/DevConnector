@@ -14,6 +14,11 @@ const AddExperience = (props) => {
     current: false,
     description: ''
   })
+  const [toDateDisabled, toggleDisabled] = useState(false)
+
+  const {compnay, title, location , from, to, current, description} = state
+
+  const onChange = (e) => {setState({...state, [e.target.name]: e.target.value})}
   return (
     <Fragment>
       <h1 class="large text-primary">
@@ -26,24 +31,29 @@ const AddExperience = (props) => {
       <small>* = required field</small>
       <form class="form">
         <div class="form-group">
-          <input type="text" placeholder="* Job Title" name="title" required />
+          <input type="text" placeholder="* Job Title" name="title" value={title} onChange={e => onChange(e)} required />
         </div>
         <div class="form-group">
-          <input type="text" placeholder="* Company" name="company" required />
+          <input type="text" placeholder="* Company" name="company" value={company} onChange={e => onChange(e)} required />
         </div>
         <div class="form-group">
-          <input type="text" placeholder="Location" name="location" />
+          <input type="text" placeholder="Location" name="location" value={location} onChange={e => onChange(e)} />
         </div>
         <div class="form-group">
           <h4>From Date</h4>
-          <input type="date" name="from" />
+          <input type="date" name="from" value={from} onChange={e => onChange(e)}/>
         </div>
         <div class="form-group">
-          <p><input type="checkbox" name="current" value="" /> Current Job</p>
+          <p><input type="checkbox" name="current" checked={current} value={current} onChange={e => {
+            setState({...state, current: !current});
+            toggleDisabled(!toggleDisabled);
+          }
+          }
+             />{' '} Current Job</p>
         </div>
         <div class="form-group">
           <h4>To Date</h4>
-          <input type="date" name="to" />
+          <input type="date" name="to" value={to} onChange={e => onChange(e)} disabled={toggleDisabled ? 'disabled' : ''}/>
         </div>
         <div class="form-group">
           <textarea
@@ -51,6 +61,7 @@ const AddExperience = (props) => {
             cols="30"
             rows="5"
             placeholder="Job Description"
+            value={description} onChange={e => onChange(e)}
           ></textarea>
         </div>
         <input type="submit" class="btn btn-primary my-1" />
@@ -62,4 +73,4 @@ const AddExperience = (props) => {
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired
 }
-export default addExperience
+export default connect(null, {addExperience})(addExperience)
